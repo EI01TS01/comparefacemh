@@ -1,0 +1,44 @@
+{
+    "editor.fontSize": 18,
+    "editor.fontFamily": "Consolas, 'matheus', monospace",
+    "editor.renderWhitespace": "all",
+    "editor.cursorStyle": "line-thin",
+    "editor.multiCursorModifier": "alt",
+    "editor.accessibilityPageSize": 15,
+    "editor.autoIndent": "advanced",
+    "editor.codeActionWidget.includeNearbyQuickfixes": true,
+    "editor.codeLensFontSize": 1,
+    "editor.colorDecoratorsActivatedOn": "click",
+    "editor.columnSelection": true,
+    "editor.wordBasedSuggestionsMode": "allDocuments",
+    "files.associations": {
+        "eu": "350"
+    },
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 500,
+    "files.defaultLanguage": "${activeEditorLanguage}",
+    "editor.minimap.scale": 3,
+    "workbench.colorTheme": "Default High Contrast Light",
+    "workbench.preferredDarkColorTheme": "Default High Contrast Light",
+    "workbench.preferredHighContrastColorTheme": "Abyss",
+    "workbench.editor.autoLockGroups": {
+        "imagePreview.previewEditor": true,
+        "vscode.audioPreview": true
+    },
+    "window.density.editorTabHeight": "default",
+    "search.actionsPosition": "auto",
+    "search.exclude": {
+        "/pesquisar": true
+    },
+    "search.experimental.closedNotebookRichContentResults": true,
+    "search.maxResults": 100000000,
+    "css.customData": [
+        "hi my neme is matheus my estuded in braziliam"
+    ],
+    "css.format.braceStyle": "expand",
+    "css.lint.argumentsInColorFunction": "warning",
+    "css.lint.validProperties": [
+        "matheus proprietario"
+    ],
+    "css.trace.server": "messages"
+}
