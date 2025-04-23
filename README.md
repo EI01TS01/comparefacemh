@@ -1,87 +1,48 @@
-HTML:
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Comparação de Linguagens do GitHub</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Comparação de Linguagens do GitHub</h1>
-  <div>
-    <label for="language">Selecione uma linguagem:</label>
-    <select id="language">
-      <option value="javascript">JavaScript</option>
-      <option value="python">Python</option>
-      <option value="java">Java</option>
-      <!-- adicione outras opções de linguagem aqui -->
-    </select>
-    <button onclick="buscarRepositorios()">Buscar</button>
-  </div>
-  <div id="resultado"></div>
-  
-  <script src="script.js"></script>
-</body>
-</html>
-```
+// Estrutura do Frontend (React + Tailwind + JavaScript) // Arquivo: src/App.jsx
 
-CSS (style.css):
-```css
-body {
-  font-family: Arial, sans-serif;
-  margin: 50px;
-}
+import React, { useState } from 'react'; import './App.css';
 
-h1 {
-  text-align: center;
-}
+const App = () => { const [message, setMessage] = useState(''); const [chatResponse, setChatResponse] = useState('');
 
-div {
-  margin-bottom: 10px;
-}
+const handleChat = async () => { const response = await fetch('http://localhost:3001/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message }) }); const data = await response.json(); setChatResponse(data.response); };
 
-select {
-  margin-right: 10px;
-}
+return ( <div className='App'> <header className='App-header'> <h1>BasketHub</h1> </header> <main className='chat-box'> <input type='text' value={message} onChange={(e) => setMessage(e.target.value)} placeholder='Digite sua pergunta sobre basquete...' /> <button onClick={handleChat}>Enviar</button> <p>Resposta da IA: {chatResponse}</p> </main> </div> ); };
 
-#resultado {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-```
+export default App;
 
-JavaScript (script.js):
-```javascript
-function buscarRepositorios() {
-  var language = document.getElementById("language").value;
-  var url = "https://api.github.com/search/repositories?q=language:" + language;
+// Arquivo: src/App.css
 
-  fetch(url)
-    .then(response => response.json())
-    .then(data => mostrarRepositorios(data.items))
-    .catch(error => console.log(error));
-}
+.App { text-align: center; font-family: 'Arial', sans-serif; }
 
-function mostrarRepositorios(repositorios) {
-  var resultadoDiv = document.getElementById("resultado");
-  resultadoDiv.innerHTML = "";
+.App-header { background-color: #ff6f00; padding: 20px; color: white; }
 
-  if (repositorios.length === 0) {
-    resultadoDiv.innerHTML = "Nenhum repositório encontrado.";
-    return;
-  }
+.chat-box { margin: 20px auto; padding: 20px; width: 300px; background-color: #f7f7f7; border-radius: 10px; }
 
-  var lista = document.createElement("ul");
-  resultadoDiv.appendChild(lista);
+.chat-box input { width: 80%; padding: 10px; border-radius: 5px; }
 
-  repositorios.forEach(function (repositorio) {
-    var itemLista = document.createElement("li");
-    var link = document.createElement("a");
-    link.href = repositorio.html_url;
-    link.textContent = repositorio.full_name;
-    itemLista.appendChild(link);
-    lista.appendChild(itemLista);
-  });
-}
-```
+.chat-box button { padding: 10px 20px; background-color: #ff6f00; border: none; color: white; cursor: pointer; }
+
+.chat-box button:hover { background-color: #e65c00; }
+
+// Estrutura do Backend (Node.js + Express + Supabase + OpenAI) // Arquivo: server/index.js
+
+import express from 'express'; import cors from 'cors'; import { createClient } from '@supabase/supabase-js'; import { config } from 'dotenv'; import OpenAI from 'openai';
+
+config();
+
+const app = express(); app.use(cors()); app.use(express.json());
+
+const supabase = createClient( process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY );
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
+
+// Rota de exemplo: autenticação com Supabase app.post('/signup', async (req, res) => { const { email, password } = req.body; const { data, error } = await supabase.auth.signUp({ email, password }); if (error) return res.status(400).json({ error }); res.json({ data }); });
+
+app.post('/login', async (req, res) => { const { email, password } = req.body; const { data, error } = await supabase.auth.signInWithPassword({ email, password }); if (error) return res.status(400).json({ error }); res.json({ data }); });
+
+// Chat IA app.post('/chat', async (req, res) => { const { message } = req.body; try { const completion = await openai.chat.completions.create({ model: 'gpt-3.5-turbo', messages: [ { role: 'system', content: 'Você é um especialista em basquete. Responda de forma clara, precisa e envolvente.' }, { role: 'user', content: message } ] }); res.json({ response: completion.choices[0].message.content }); } catch (err) { res.status(500).json({ error: 'Erro ao se comunicar com a IA.' }); } });
+
+const PORT = process.env.PORT || 3001; app.listen(PORT, () => { console.log(Servidor rodando na porta ${PORT}); });
+
+// Exemplo de .env // SUPABASE_URL=https://pmrwituyadinexqcpzbo.supabase.co // SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... // OPENAI_KEY=sk-proj-Tp3ulHgJmfzTh8m4aoGv__vWNOyjgiykvZmnX...
 
